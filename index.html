@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Smart Music Malawi — Coming Soon</title>
+<link rel="icon" href="logo.png" type="image/png">
+<style>
+:root{--bg:#071027;--card:#0e1724;--muted:#bcd0e6;--accent:#ff6b6b;--accent-2:#6be7ff;--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.04)}
+[data-theme="light"]{--bg:#f6f8fb;--card:#ffffff;--muted:#2c3a4a;--accent:#e25b6b;--accent-2:#006b82;--glass:rgba(16,24,40,0.02);--glass-border:rgba(16,24,40,0.06)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;background:linear-gradient(180deg, rgba(0,0,0,0.18), transparent), var(--bg);color:var(--muted);-webkit-font-smoothing:antialiased}
+.wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px;position:relative;overflow:hidden}
+.bg-blob{position:absolute;inset:-20% -10% auto auto;width:70vmax;height:70vmax;filter:blur(64px);transform:translate3d(-10%,-10%,0) rotate(12deg);background:radial-gradient(circle at 25% 25%, rgba(107,231,255,0.12), transparent 12%), radial-gradient(circle at 80% 60%, rgba(255,107,107,0.10), transparent 12%);mix-blend-mode:screen;pointer-events:none;transition:transform .9s ease}
+.card{width:100%;max-width:1100px;background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.006));border:1px solid var(--glass-border);backdrop-filter: blur(8px) saturate(120%);border-radius:18px;padding:26px;display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:start;box-shadow:0 18px 60px rgba(2,6,23,0.55)}
+@media (max-width:980px){.card{grid-template-columns:1fr;padding:18px}.right{order:-1}}
+.header{display:flex;gap:14px;align-items:center;margin-bottom:8px;background:#ffffff;padding:10px;border-radius:12px}
+.logo-img{width:64px;height:64px;border-radius:12px;object-fit:cover;box-shadow:0 8px 26px rgba(0,0,0,0.35)}
+.title-wrap{display:flex;flex-direction:column}
+.title{font-weight:800;font-size:1.35rem;color:#0e1724}
+.subtitle{font-size:0.92rem;color:#334155;opacity:0.95}
+.count-wrap{display:flex;flex-direction:column;gap:18px;margin:12px 0}
+.count-grid{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.count-item{flex:1 1 110px;min-width:96px;background:linear-gradient(180deg,var(--glass),transparent);border-radius:14px;padding:18px;text-align:center;border:1px solid var(--glass-border);box-shadow:0 8px 24px rgba(2,6,23,0.25);transition:transform .18s ease}
+.count-item:hover{transform:translateY(-6px)}
+.count-num{font-size:2.1rem;font-weight:900;color:var(--muted);letter-spacing:-0.02em}
+.count-label{font-size:0.95rem;color:var(--muted);opacity:0.9;margin-top:6px}
+.lead{font-size:1.05rem;color:var(--muted);line-height:1.45;margin:0 0 10px 0}
+.player{margin-top:12px;display:flex;flex-direction:column;gap:12px}
+.track-top{display:flex;gap:14px;align-items:center}
+.art{width:84px;height:84px;border-radius:12px;object-fit:cover;border:1px solid var(--glass-border);background:#ffffff}
+.track-meta{display:flex;flex-direction:column;gap:4px}
+.meta-title{font-weight:800;color:#e7e7e7;letter-spacing:-0.01em}
+.meta-artist{font-size:0.95rem;color:var(--muted)}
+.meta-actions{display:flex;gap:8px;align-items:center;margin-top:6px}
+.smallbtn{padding:8px 10px;border-radius:10px;border:1px solid var(--glass-border);background:transparent;color:var(--muted);cursor:pointer}
+.rating{display:flex;gap:4px;font-size:1rem;color:#facc15}
+select#trackSelect{padding:8px 10px;border-radius:10px;border:1px solid var(--glass-border);background:transparent;color:var(--muted)}
+.controls{display:flex;gap:10px;align-items:center}
+.playbtn{width:52px;height:52px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-size:18px;display:grid;place-items:center;box-shadow:0 14px 36px rgba(0,0,0,0.35);cursor:pointer}
+.navbtn{width:44px;height:44px;border-radius:10px;border:1px solid var(--glass-border);background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer}
+.prog{flex:1;height:10px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));position:relative;overflow:hidden;border:1px solid var(--glass-border);cursor:pointer}
+.prog i{position:absolute;left:0;top:0;bottom:0;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:10px}
+.time{min-width:96px;text-align:right;font-size:0.92rem;color:var(--muted)}
+.misc{display:flex;gap:8px;align-items:center;margin-top:6px}
+.mute{padding:8px 10px;border-radius:10px;border:1px solid var(--glass-border);background:transparent;color:var(--muted);cursor:pointer}
+.download{padding:8px 10px;border-radius:10px;border:1px solid var(--glass-border);background:transparent;color:#ffffff;text-decoration:none}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn{padding:10px 14px;border-radius:12px;border:1px solid var(--glass-border);background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);color:var(--muted);cursor:pointer;transition:transform .15s ease}
+.btn:hover{transform:translateY(-6px)}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;border:none;box-shadow:0 14px 36px rgba(0,0,0,0.3)}
+.btn.ghost{background:transparent}
+.right{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid var(--glass-border)}
+.hero{height:260px;border-radius:10px;background:#ffffff;display:grid;place-items:center;position:relative;overflow:hidden}
+.hero-logo{max-width:80%;max-height:80%;object-fit:contain}
+.meta{margin-top:12px;display:flex;flex-direction:column;gap:10px;color:var(--muted);font-size:0.95rem}
+.overlay{position:fixed;inset:0;background:rgba(2,6,23,0.55);display:none;place-items:center;z-index:120}
+.modal{width:92%;max-width:720px;background:var(--card);border-radius:12px;padding:18px;border:1px solid var(--glass-border);box-shadow:0 30px 80px rgba(2,6,23,0.6)}
+.modal h3{margin:0 0 8px 0;color:var(--muted)}
+.advert .cta{display:flex;gap:10px;justify-content:center;margin-top:12px}
+.advert a{padding:10px 14px;border-radius:10px;text-decoration:none;color:white}
+.advert .primary{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.advert .ghost{background:transparent;color:var(--muted);border:1px solid var(--glass-border)}
+footer{display:flex;justify-content:space-between;align-items:center;margin-top:14px;color:var(--muted);font-size:0.9rem;gap:12px}
+.dev{display:flex;gap:12px;align-items:center}
+.avatar{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent-2),var(--accent));display:grid;place-items:center;color:white;font-weight:800}
+@media (max-width:640px){.track-top{align-items:flex-start}.art{width:72px;height:72px}.count-num{font-size:1.7rem}.playbtn{width:48px;height:48px}.navbtn{width:40px;height:40px}.hero{height:200px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app" data-theme="dark">
+  <div class="bg-blob" id="bgBlob"></div>
+
+  <div class="card" role="region" aria-labelledby="sm-title">
+    <div>
+      <div class="header">
+        <img src="logo.png" alt="Smart Music Malawi logo" class="logo-img" id="logoImg">
+        <div class="title-wrap">
+          <div class="title" id="sm-title">Smart Music Malawi</div>
+          <div class="subtitle">Supporting young local upcoming artists — Launching soon</div>
+        </div>
+      </div>
+
+      <p class="lead">We’re building a free, community-first music streaming platform to showcase and support Malawi’s next generation of artists. Preview audio, choose tracks, like and rate, or contact me directly.</p>
+
+      <div class="count-wrap" aria-live="polite" aria-atomic="true">
+        <div style="font-weight:900;font-size:0.95rem;color:var(--muted)">Time until launch</div>
+        <div class="count-grid" id="countdown">
+          <div class="count-item"><div class="count-num" id="days">--</div><div class="count-label">Days</div></div>
+          <div class="count-item"><div class="count-num" id="hours">--</div><div class="count-label">Hours</div></div>
+          <div class="count-item"><div class="count-num" id="minutes">--</div><div class="count-label">Minutes</div></div>
+          <div class="count-item"><div class="count-num" id="seconds">--</div><div class="count-label">Seconds</div></div>
+        </div>
+      </div>
+
+      <div class="player" aria-label="Audio player">
+        <div class="track-top">
+          <img id="artwork" class="art" src="LAWREAY TECH Logo Design.png" alt="Track artwork">
+          <div class="track-meta">
+            <div class="meta-title" id="songName">Without Me</div>
+            <div class="meta-artist" id="artistName">Halsey</div>
+            <div class="meta-actions">
+              <button class="smallbtn" id="likeBtn" title="Like">♡ Like</button>
+              <div class="rating" id="rating">
+                <span data-star="1">★</span><span data-star="2">★</span><span data-star="3">★</span><span data-star="4">★</span><span data-star="5">★</span>
+              </div>
+              <a class="download" id="downloadBtn" href="Halsey_-_Without_Me(128k).m4a" download>Download</a>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+              <label for="trackSelect" style="font-size:0.9rem;color:var(--muted)">Choose music</label>
+              <select id="trackSelect">
+                <option value="0">Halsey — Without Me</option>
+                <option value="1">Nasty C — See Me Now (Remix) feat MAETA</option>
+                <option value="2">Malinga — Chete ft. Zeze Kingston</option>
+                <option value="3">Pop Smoke — What You Know Bout Love</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <audio id="audio" preload="metadata">
+          <source id="audioSource" src="Halsey_-_Without_Me(128k).m4a" type="audio/mp4">
+        </audio>
+
+        <div class="controls">
+          <button class="navbtn" id="prevBtn" title="Previous">⏮</button>
+          <button class="playbtn" id="playPause" aria-pressed="false" title="Play">▶</button>
+          <button class="navbtn" id="nextBtn" title="Next">⏭</button>
+          <div class="prog" id="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0" title="Seek"><i id="progFill"></i></div>
+          <div class="time" id="timeDisplay">00:00 / 00:00</div>
+        </div>
+
+        <div class="misc">
+          <button class="mute" id="muteBtn" title="Mute/unmute">🔊</button>
+          <input id="volRange" type="range" min="0" max="1" step="0.01" value="0.9" aria-label="Volume control" style="width:110px">
+          <div style="margin-left:auto;font-size:0.92rem;color:var(--muted)">Audio preview</div>
+        </div>
+      </div>
+
+      <div class="actions" role="group" aria-label="Main actions">
+        <button class="btn primary" id="notifyBtn">Get notified</button>
+        <button class="btn ghost" id="themeBtn">Change Theme</button>
+        <button class="btn" id="projectsBtn" aria-haspopup="dialog">My Projects</button>
+      </div>
+
+      <footer>
+        <div class="dev">
+          <div class="avatar">LP</div>
+          <div>
+            <div style="font-weight:800">Developed by Lawrence Phuka Chikapa</div>
+            <div style="font-size:0.88rem;color:var(--muted)">Founder, Learn360 — Digital & Creative</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <a id="mailtoLink" href="mailto:lawreay1@gmail.com?subject=Interest%20in%20Smart%20Music%20Malawi&body=Hello%20Lawrence%2C%0A%0AI%20am%20interested%20in%20Smart%20Music%20Malawi.%20Please%20tell%20me%20how%20I%20can%20sign%20up%20or%20submit%20my%20music.%0A%0AThanks%2C%0A" style="color:var(--muted);text-decoration:none;font-size:0.92rem">Email: <strong style="color:var(--muted)">lawreay1@gmail.com</strong></a>
+          <a id="waLink" href="https://wa.me/265993147700?text=Hello%20Lawrence%2C%20I%27m%20interested%20in%20Smart%20Music%20Malawi.%20Please%20share%20more%20info." style="color:var(--muted);text-decoration:none;font-size:0.92rem" target="_blank" rel="noopener">WhatsApp: <strong style="color:var(--muted)">+265 993 147 700</strong></a>
+        </div>
+      </footer>
+    </div>
+
+    <aside class="right" aria-hidden="false">
+      <div class="hero" aria-hidden="true">
+        <img src="logo.png" alt="Smart Music Malawi logo" class="hero-logo">
+      </div>
+      <div class="meta">
+        <div><strong>Launching</strong> — By December 1</div>
+        <div><strong>Free</strong> — No subscriptions or fees</div>
+        <div><strong>Support</strong> — Direct artist funding</div>
+        <div><strong>Focus</strong> — Local talent discovery & fair splits</div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal" role="document">
+    <h3 id="modalTitle">My Projects</h3>
+    <p style="color:var(--muted)">Open any project in a new tab.</p>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px">
+      <div style="padding:10px;border-radius:8px;background:linear-gradient(180deg,var(--glass),transparent);border:1px solid var(--glass-border)">
+        <a href="https://learn360.free.nf/" target="_blank" rel="noopener" style="color:var(--accent-2);font-weight:700;text-decoration:none">Learn360</a>
+        <div style="font-size:0.92rem;color:var(--muted)">Free ICT education platform</div>
+      </div>
+      <div style="padding:10px;border-radius:8px;background:linear-gradient(180deg,var(--glass),transparent);border:1px solid var(--glass-border)">
+        <a href="https://lawreay.github.io/learn360-log-in-page-demo/" target="_blank" rel="noopener" style="color:var(--accent-2);font-weight:700;text-decoration:none">Learn360 Demo</a>
+        <div style="font-size:0.92rem;color:var(--muted)">Login page demo</div>
+      </div>
+      <div style="padding:10px;border-radius:8px;background:linear-gradient(180deg,var(--glass),transparent);border:1px solid var(--glass-border)">
+        <a href="https://lawreay.github.io/portfolio/" target="_blank" rel="noopener" style="color:var(--accent-2);font-weight:700;text-decoration:none">Portfolio</a>
+        <div style="font-size:0.92rem;color:var(--muted)">Design & development work</div>
+      </div>
+      <div style="padding:10px;border-radius:8px;background:linear-gradient(180deg,var(--glass),transparent);border:1px solid var(--glass-border)">
+        <a href="#" style="color:var(--accent-2);font-weight:700;text-decoration:none" onclick="event.preventDefault()">Smart Music Malawi</a>
+        <div style="font-size:0.92rem;color:var(--muted)">This platform</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:14px;gap:10px">
+      <button class="btn small" id="closeModal">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="notifyOverlay" aria-modal="true" aria-hidden="true">
+  <div class="modal" role="document" id="notifyModal">
+    <h3>Get notified</h3>
+    <p style="color:var(--muted)">Enter your email and a mail draft will open so you can confirm your signup.</p>
+    <form id="notifyForm" style="display:flex;flex-direction:column;gap:10px">
+      <input id="notifyEmail" type="email" placeholder="you@example.com" required style="padding:10px;border-radius:8px;border:1px solid var(--glass-border);background:transparent;color:var(--muted)">
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button type="button" class="btn" id="cancelNotify">Cancel</button>
+        <button type="submit" class="btn primary">Send</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="overlay" id="advertOverlay" aria-modal="true" aria-hidden="true">
+  <div class="modal advert" role="document">
+    <h3>Affordable websites & services</h3>
+    <p style="color:var(--muted)">Need a cheap website or digital service for your music or business? Fast turnaround and local rates.</p>
+    <div class="cta">
+      <a class="primary" href="mailto:lawreay1@gmail.com?subject=Request%20Website&body=Hello%20Lawrence%2C%0A%0AI%20would%20like%20to%20request%20a%20website.%20Please%20share%20details%20and%20pricing.%0A%0AThanks." target="_blank" rel="noopener">Request Website</a>
+      <a class="ghost" href="mailto:lawreay1@gmail.com?subject=Request%20Service&body=Hello%20Lawrence%2C%0A%0AI%20would%20like%20to%20request%20a%20digital%20service.%20Please%20share%20details%20and%20pricing.%0A%0AThanks." target="_blank" rel="noopener">Request Service</a>
+    </div>
+    <div style="display:flex;justify-content:center;gap:10px;margin-top:14px">
+      <button class="btn small" id="closeAdvert">Close</button>
+      <button class="btn small" id="neverShow">Don't show again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const now=new Date();
+  let target=new Date(now.getFullYear(),11,1,0,0,0);
+  if(now > target){ target = new Date(now.getFullYear()+1,11,1,0,0,0) }
+  const D=document.getElementById('days'),H=document.getElementById('hours'),M=document.getElementById('minutes'),S=document.getElementById('seconds');
+  function pad(n){return String(n).padStart(2,'0')}
+  function update(){const diff=target.getTime()-Date.now();if(diff<=0){D.textContent='00';H.textContent='00';M.textContent='00';S.textContent='00';return}const sec=Math.floor(diff/1000)%60;const min=Math.floor(diff/60000)%60;const hrs=Math.floor(diff/3600000)%24;const days=Math.floor(diff/(24*3600000));D.textContent=String(days);H.textContent=pad(hrs);M.textContent=pad(min);S.textContent=pad(sec)}
+  update();setInterval(update,1000);
+})();
+(function(){
+  const app=document.getElementById('app'),blob=document.getElementById('bgBlob'),btn=document.getElementById('themeBtn');
+  const saved=localStorage.getItem('smm-theme'); if(saved) app.setAttribute('data-theme',saved);
+  btn.addEventListener('click',()=>{const next=app.getAttribute('data-theme')==='dark'?'light':'dark';app.setAttribute('data-theme',next);localStorage.setItem('smm-theme',next);blob.style.transform=next==='dark'?'translate3d(-10%,-10%,0) rotate(12deg) scale(1)':'translate3d(5%,-5%,0) rotate(-8deg) scale(1.02)';btn.animate([{transform:'scale(1)'},{transform:'scale(.96)'},{transform:'scale(1)'}],{duration:260,easing:'ease-out'})});
+})();
+(function(){
+  const overlay=document.getElementById('overlay'),openBtn=document.getElementById('projectsBtn'),closeBtn=document.getElementById('closeModal');
+  openBtn.addEventListener('click',()=>{overlay.style.display='grid';document.body.style.overflow='hidden';closeBtn.focus()});
+  closeBtn.addEventListener('click',()=>{overlay.style.display='none';document.body.style.overflow='';openBtn.focus()});
+  overlay.addEventListener('click',e=>{if(e.target===overlay){overlay.style.display='none';document.body.style.overflow=''}});
+  window.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.style.display==='grid'){overlay.style.display='none';document.body.style.overflow=''}})
+})();
+(function(){
+  const notifyBtn=document.getElementById('notifyBtn'),overlay=document.getElementById('notifyOverlay'),emailInput=document.getElementById('notifyEmail'),form=document.getElementById('notifyForm'),cancel=document.getElementById('cancelNotify');
+  notifyBtn.addEventListener('click',()=>{overlay.style.display='grid';overlay.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';emailInput.focus()});
+  cancel.addEventListener('click',()=>{overlay.style.display='none';overlay.setAttribute('aria-hidden','true');document.body.style.overflow='';notifyBtn.focus()});
+  form.addEventListener('submit',e=>{e.preventDefault();const userEmail=emailInput.value.trim();if(!userEmail)return emailInput.focus();const to=encodeURIComponent('lawreay1@gmail.com');const subject=encodeURIComponent('Notify me: Smart Music Malawi');const body=encodeURIComponent('Hello Lawrence,%0D%0A%0D%0AI would like to be notified when Smart Music Malawi launches.%0D%0A%0D%0AMy email: '+userEmail+'%0D%0A%0D%0AThanks.');window.location.href='mailto:'+to+'?subject='+subject+'&body='+body;overlay.style.display='none';overlay.setAttribute('aria-hidden','true');document.body.style.overflow='';notifyBtn.focus()});
+  overlay.addEventListener('click',e=>{if(e.target===overlay){overlay.style.display='none';overlay.setAttribute('aria-hidden','true');document.body.style.overflow=''}})
+})();
+(function(){
+  const audio=document.getElementById('audio'),playPause=document.getElementById('playPause'),progress=document.getElementById('progress'),progFill=document.getElementById('progFill'),timeDisplay=document.getElementById('timeDisplay'),volRange=document.getElementById('volRange'),muteBtn=document.getElementById('muteBtn'),prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),select=document.getElementById('trackSelect'),songName=document.getElementById('songName'),artistName=document.getElementById('artistName'),artwork=document.getElementById('artwork'),downloadBtn=document.getElementById('downloadBtn');
+  const tracks=[
+    {src:'Halsey_-_Without_Me(128k).m4a',type:'audio/mp4',song:'Without Me',artist:'Halsey',art:'LAWREAY TECH Logo Design.png'},
+    {src:'Nasty_C_-_See_Me_Now__Remix__feat._MAETA(128k).m4a',type:'audio/mp4',song:'See Me Now (Remix)',artist:'Nasty C feat. MAETA',art:'LAWREAY TECH Logo Design.png'},
+    {src:'Malinga_-_Chete_ft._Zeze_Kingston__Official_Music_Video_(128k).m4a',type:'audio/mp4',song:'Chete ft. Zeze Kingston',artist:'Malinga',art:'LAWREAY TECH Logo Design.png'},
+    {src:'POP_SMOKE_-_WHAT_YOU_KNOW_BOUT_LOVE__Official_Video_(128k).m4a',type:'audio/mp4',song:'WHAT YOU KNOW BOUT LOVE',artist:'Pop Smoke',art:'LAWREAY TECH Logo Design.png'}
+  ];
+  let index=0;
+  function fmt(t){if(isNaN(t))return'00:00';t=Math.floor(t);const h=Math.floor(t/3600);const m=Math.floor((t%3600)/60);const s=t%60;return h>0? h+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0') : String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+  function loadTrack(i){index=(i+tracks.length)%tracks.length;const t=tracks[index];audio.pause();audio.src=t.src;audio.type=t.type;audio.load();songName.textContent=t.song;artistName.textContent=t.artist;artwork.src=t.art;downloadBtn.href=t.src;select.value=String(index);playPause.textContent='▶';playPause.setAttribute('aria-pressed','false');progFill.style.width='0%';timeDisplay.textContent='00:00 / 00:00'}
+  audio.addEventListener('loadedmetadata',()=>{timeDisplay.textContent=fmt(0)+' / '+fmt(audio.duration)});
+  audio.addEventListener('timeupdate',()=>{const pct=(audio.currentTime/audio.duration)*100||0;progFill.style.width=pct+'%';progress.setAttribute('aria-valuenow',Math.floor(pct));timeDisplay.textContent=fmt(audio.currentTime)+' / '+fmt(audio.duration)});
+  playPause.addEventListener('click',()=>{if(audio.paused){audio.play().catch(()=>{});playPause.textContent='⏸';playPause.setAttribute('aria-pressed','true')}else{audio.pause();playPause.textContent='▶';playPause.setAttribute('aria-pressed','false')}});
+  prevBtn.addEventListener('click',()=>{loadTrack(index-1);audio.play().catch(()=>{});playPause.textContent='⏸';playPause.setAttribute('aria-pressed','true')});
+  nextBtn.addEventListener('click',()=>{loadTrack(index+1);audio.play().catch(()=>{});playPause.textContent='⏸';playPause.setAttribute('aria-pressed','true')});
+  select.addEventListener('change',e=>{loadTrack(parseInt(e.target.value,10));audio.play().catch(()=>{});playPause.textContent='⏸';playPause.setAttribute('aria-pressed','true')});
+  function seek(e){const rect=progress.getBoundingClientRect();const clientX=(e.type.startsWith('touch'))?e.touches[0].clientX:e.clientX;const x=clientX-rect.left;const pct=Math.max(0,Math.min(1,x/rect.width));if(!isNaN(audio.duration))audio.currentTime=pct*audio.duration}
+  progress.addEventListener('click',seek);progress.addEventListener('touchstart',seek);
+  volRange.addEventListener('input',e=>{audio.volume=parseFloat(e.target.value);updateMute()});muteBtn.addEventListener('click',()=>{audio.muted=!audio.muted;updateMute()});
+  function updateMute(){muteBtn.textContent=(audio.muted||audio.volume===0)?'🔇':'🔊';if(!audio.muted)volRange.value=audio.volume}
+  progress.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')audio.currentTime=Math.max(0,audio.currentTime-5);if(e.key==='ArrowRight')audio.currentTime=Math.min(audio.duration,audio.currentTime+5)});
+  audio.addEventListener('ended',()=>{playPause.textContent='▶';playPause.setAttribute('aria-pressed','false')});
+  audio.volume=parseFloat(volRange.value);updateMute();loadTrack(0);
+})();
+(function(){
+  const mailto=document.getElementById('mailtoLink'),wa=document.getElementById('waLink');
+  wa.href='https://wa.me/265993147700?text='+encodeURIComponent("Hello Lawrence, I'm interested in Smart Music Malawi. Please share more info and how I can submit music.");
+  mailto.href='mailto:lawreay1@gmail.com?subject='+encodeURIComponent('Interest in Smart Music Malawi')+'&body='+encodeURIComponent("Hello Lawrence,\n\nI'm interested in Smart Music Malawi. Please tell me how I can sign up or submit music.\n\nThanks,\n");
+})();
+(function(){
+  const advertOverlay=document.getElementById('advertOverlay'),closeAdvert=document.getElementById('closeAdvert'),neverShow=document.getElementById('neverShow'),delay=40000,sessionKey='smm-advert-hidden';
+  function show(){if(sessionStorage.getItem(sessionKey)==='true')return;advertOverlay.style.display='grid';advertOverlay.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
+  const timer=setTimeout(show,delay);
+  closeAdvert.addEventListener('click',()=>{advertOverlay.style.display='none';document.body.style.overflow='';clearTimeout(timer)});
+  neverShow.addEventListener('click',()=>{sessionStorage.setItem(sessionKey,'true');advertOverlay.style.display='none';document.body.style.overflow='';clearTimeout(timer)});
+  advertOverlay.addEventListener('click',e=>{if(e.target===advertOverlay){advertOverlay.style.display='none';document.body.style.overflow=''}})
+  window.addEventListener('keydown',e=>{if(e.key==='Escape'&&advertOverlay.style.display==='grid'){advertOverlay.style.display='none';document.body.style.overflow=''}})
+})();
+(function(){const l=document.getElementById('logoImg');function adapt(){l.style.width=window.innerWidth<420?'52px':'64px'}adapt();window.addEventListener('resize',adapt)})();
+(function(){
+  const likeBtn=document.getElementById('likeBtn');let liked=false;
+  likeBtn.addEventListener('click',()=>{liked=!liked;likeBtn.textContent= liked ? '♥ Liked' : '♡ Like';likeBtn.style.color = liked ? '#ff4d6d' : 'var(--muted)'});
+})();
+(function(){
+  const rating = document.getElementById('rating'); let current=0;
+  function render(n){[...rating.querySelectorAll('span')].forEach((el,i)=>{el.style.opacity = i < n ? '1' : '0.35'})}
+  rating.addEventListener('click',(e)=>{const star = e.target.getAttribute('data-star'); if(star){current = parseInt(star,10); render(current)}})
+  render(0);
+})();
+</script>
+</body>
+</html>
