@@ -1,0 +1,38 @@
+.headerbar{
+  display: flex;
+  flex-direction: row;
+ background:linear-gradient(rgba(255, 255, 255, 0.993) 20%, rgba(29, 136, 2, 0.397));
+ justify-content: space-between;
+
+}
+
+.navbtn{
+  color:white;
+  background:linear-gradient(rgb(0, 0, 0) 20%, rgba(29, 136, 2, 0.397));
+ border-radius: 11px;
+  padding: 10px;
+  transition: 0.5s;
+  margin: 10px;
+}
+
+.navbtn:hover{
+ transform: scale(1.5);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.74);
+  cursor: pointer;
+}
+
+.logo{
+   transition: 0.5s;
+}
+.logo:hover{
+ transform: scale(1.2);
+}
+
+.title{
+  
+   transition: 0.5s;
+    cursor: default;
+}
+.title:hover{
+  color: rgb(3, 230, 14);
+}
