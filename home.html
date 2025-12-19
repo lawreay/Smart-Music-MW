@@ -6,7 +6,7 @@
     <title>Smart Music Malawi</title>
     <link rel="stylesheet" href="Styles/player.css" />
     <link rel="stylesheet" href="Styles/home.css" />
-    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon" />
   </head>
   <body>
     <header>
@@ -23,14 +23,16 @@
 
     <!-- Search Bar -->
     <div class="search-container">
-      <input 
-        type="text" 
-        id="searchInput" 
-        class="search-bar" 
-        placeholder="🔍 Search songs, artists..." 
+      <input
+        type="text"
+        id="searchInput"
+        class="search-bar"
+        placeholder="🔍 Search songs, artists..."
         autocomplete="off"
       />
-      <button id="clearSearch" class="clear-search-btn" style="display:none;">✕</button>
+      <button id="clearSearch" class="clear-search-btn" style="display: none">
+        ✕
+      </button>
     </div>
 
     <div class="container">
@@ -199,8 +201,13 @@
       </article>
     </div>
     <!-- Song Grid Section -->
-    <section class="songs-section" style="margin: 24px auto; max-width: var(--max-width);">
-      <h2 style="color: var(--text); margin-bottom: 16px; font-size: 1.3rem;">Popular Tracks</h2>
+    <section
+      class="songs-section"
+      style="margin: 24px auto; max-width: var(--max-width)"
+    >
+      <h2 style="color: var(--text); margin-bottom: 16px; font-size: 1.3rem">
+        Popular Tracks
+      </h2>
       <div class="songs-grid" id="songsGrid">
         <!-- Song cards will be dynamically loaded here -->
       </div>
@@ -208,7 +215,8 @@
 
     <div>
       <footer>
-        <p>&copy; 2024 Smart Music Malawi. All rights reserved.</p> Developed by <b>Lawrence Chikapa Phuka</b>
+        <p>&copy; 2024 Smart Music Malawi. All rights reserved.</p>
+        Developed by <b>Lawrence Chikapa Phuka</b>
       </footer>
     </div>
 
@@ -216,8 +224,13 @@
     <div class="bottom-player" id="bottomPlayer">
       <div class="bottom-player-content">
         <!-- Album Art -->
-        <img id="bottomArt" class="bottom-player-art" src="LAWREAY TECH Logo Design.png" alt="Now playing">
-        
+        <img
+          id="bottomArt"
+          class="bottom-player-art"
+          src="LAWREAY TECH Logo Design.png"
+          alt="Now playing"
+        />
+
         <!-- Track Info -->
         <div class="bottom-player-info">
           <div class="bottom-player-title" id="bottomSongName">Without Me</div>
@@ -226,9 +239,19 @@
 
         <!-- Controls -->
         <div class="bottom-player-controls">
-          <button class="bottom-player-btn like-btn-mini" id="likeBtnMini" title="Like">♡</button>
-          <button class="bottom-player-btn" id="playPauseMini" title="Play">▶</button>
-          <button class="bottom-player-btn" id="nextBtnMini" title="Next">⏭</button>
+          <button
+            class="bottom-player-btn like-btn-mini"
+            id="likeBtnMini"
+            title="Like"
+          >
+            ♡
+          </button>
+          <button class="bottom-player-btn" id="playPauseMini" title="Play">
+            ▶
+          </button>
+          <button class="bottom-player-btn" id="nextBtnMini" title="Next">
+            ⏭
+          </button>
         </div>
 
         <!-- Progress -->
