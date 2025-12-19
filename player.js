@@ -16,6 +16,12 @@
     downloadBtn = document.getElementById("downloadBtn"),
     fileLoader = document.getElementById("fileLoader");
 
+  // Bottom player elements
+  const playPauseMini = document.getElementById("playPauseMini"),
+    nextBtnMini = document.getElementById("nextBtnMini"),
+    bottomProgress = document.getElementById("bottomProgress"),
+    bottomProgressFill = document.getElementById("bottomProgressFill");
+
   // Default playlist (paths are relative — replace with your files in Videos/ or load local files)
   const tracks = [
     { src: "Halsey_-_Without_Me(128k).m4a", type: "audio/mp4", song: "Without Me", artist: "Halsey", art: "LAWREAY TECH Logo Design.png" },
@@ -27,27 +33,135 @@
   let index = 0;
   function fmt(t){ if(isNaN(t)) return "00:00"; t = Math.floor(t); const h = Math.floor(t/3600); const m = Math.floor((t%3600)/60); const s = t%60; return h>0? h+":"+String(m).padStart(2,'0')+":"+String(s).padStart(2,'0') : String(m).padStart(2,'0')+":"+String(s).padStart(2,'0'); }
 
-  function loadTrack(i){ index = (i + tracks.length) % tracks.length; const t = tracks[index]; audio.pause(); audio.src = t.src; audio.type = t.type; audio.load(); songName.textContent = t.song; artistName.textContent = t.artist; artwork.src = t.art; downloadBtn.href = t.src; select.value = String(index); playPause.textContent = "▶"; playPause.setAttribute("aria-pressed","false"); progFill.style.width = "0%"; timeDisplay.textContent = "00:00 / 00:00"; }
+  function loadTrack(i){ 
+    index = (i + tracks.length) % tracks.length; 
+    const t = tracks[index]; 
+    audio.pause(); 
+    audio.src = t.src; 
+    audio.type = t.type; 
+    audio.load(); 
+    songName.textContent = t.song; 
+    artistName.textContent = t.artist; 
+    artwork.src = t.art; 
+    downloadBtn.href = t.src; 
+    select.value = String(index); 
+    playPause.textContent = "▶"; 
+    playPause.setAttribute("aria-pressed","false"); 
+    progFill.style.width = "0%"; 
+    timeDisplay.textContent = "00:00 / 00:00"; 
+    
+    // Update bottom player
+    updateBottomPlayerDisplay(t);
+    
+    // Update active song card
+    updateActiveSongCard(index);
+  }
+
+  function updateBottomPlayerDisplay(track) {
+    const bottomSongName = document.getElementById('bottomSongName');
+    const bottomArtistName = document.getElementById('bottomArtistName');
+    const bottomArt = document.getElementById('bottomArt');
+    
+    if (bottomSongName) bottomSongName.textContent = track.song;
+    if (bottomArtistName) bottomArtistName.textContent = track.artist;
+    if (bottomArt) bottomArt.src = track.art;
+  }
+
+  function updateActiveSongCard(trackId) {
+    const cards = document.querySelectorAll('.song-card');
+    cards.forEach((card, idx) => {
+      if (idx === trackId) {
+        card.classList.add('active');
+      } else {
+        card.classList.remove('active');
+      }
+    });
+  }
 
   audio.addEventListener("loadedmetadata", ()=>{ timeDisplay.textContent = fmt(0) + " / " + fmt(audio.duration); });
-  audio.addEventListener("timeupdate", ()=>{ const pct = (audio.currentTime / audio.duration) * 100 || 0; progFill.style.width = pct + "%"; progress.setAttribute("aria-valuenow", Math.floor(pct)); timeDisplay.textContent = fmt(audio.currentTime) + " / " + fmt(audio.duration); });
+  audio.addEventListener("timeupdate", ()=>{ 
+    const pct = (audio.currentTime / audio.duration) * 100 || 0; 
+    progFill.style.width = pct + "%"; 
+    progress.setAttribute("aria-valuenow", Math.floor(pct)); 
+    timeDisplay.textContent = fmt(audio.currentTime) + " / " + fmt(audio.duration);
+    
+    // Update bottom player progress
+    if (bottomProgressFill) {
+      bottomProgressFill.style.width = pct + "%";
+    }
+  });
 
-  playPause.addEventListener("click", ()=>{ if(audio.paused){ audio.play().catch(()=>{}); playPause.textContent = "⏸"; playPause.setAttribute("aria-pressed","true"); } else { audio.pause(); playPause.textContent = "▶"; playPause.setAttribute("aria-pressed","false"); } });
-  prevBtn.addEventListener("click", ()=>{ loadTrack(index - 1); audio.play().catch(()=>{}); playPause.textContent = "⏸"; playPause.setAttribute("aria-pressed","true"); });
-  nextBtn.addEventListener("click", ()=>{ loadTrack(index + 1); audio.play().catch(()=>{}); playPause.textContent = "⏸"; playPause.setAttribute("aria-pressed","true"); });
+  playPause.addEventListener("click", ()=>{ 
+    if(audio.paused){ 
+      audio.play().catch(()=>{}); 
+      playPause.textContent = "⏸"; 
+      playPause.setAttribute("aria-pressed","true");
+      if (playPauseMini) {
+        playPauseMini.textContent = "⏸";
+      }
+    } else { 
+      audio.pause(); 
+      playPause.textContent = "▶"; 
+      playPause.setAttribute("aria-pressed","false");
+      if (playPauseMini) {
+        playPauseMini.textContent = "▶";
+      }
+    } 
+  });
+  
+  // Mini play/pause button
+  if (playPauseMini) {
+    playPauseMini.addEventListener("click", () => {
+      playPause.click();
+    });
+  }
+  
+  prevBtn.addEventListener("click", ()=>{ loadTrack(index - 1); audio.play().catch(()=>{}); playPause.textContent = "⏸"; playPause.setAttribute("aria-pressed","true"); if (playPauseMini) playPauseMini.textContent = "⏸"; });
+  nextBtn.addEventListener("click", ()=>{ loadTrack(index + 1); audio.play().catch(()=>{}); playPause.textContent = "⏸"; playPause.setAttribute("aria-pressed","true"); if (playPauseMini) playPauseMini.textContent = "⏸"; });
 
-  select.addEventListener("change", (e)=>{ loadTrack(parseInt(e.target.value,10)); audio.play().catch(()=>{}); playPause.textContent = "⏸"; playPause.setAttribute("aria-pressed","true"); });
+  // Mini next button
+  if (nextBtnMini) {
+    nextBtnMini.addEventListener("click", () => {
+      nextBtn.click();
+    });
+  }
 
-  function seek(e){ const rect = progress.getBoundingClientRect(); const clientX = e.type.startsWith("touch") ? e.touches[0].clientX : e.clientX; const x = clientX - rect.left; const pct = Math.max(0, Math.min(1, x / rect.width)); if(!isNaN(audio.duration)) audio.currentTime = pct * audio.duration; }
-  progress.addEventListener("click", seek); progress.addEventListener("touchstart", seek);
+  select.addEventListener("change", (e)=>{ loadTrack(parseInt(e.target.value,10)); audio.play().catch(()=>{}); playPause.textContent = "⏸"; playPause.setAttribute("aria-pressed","true"); if (playPauseMini) playPauseMini.textContent = "⏸"; });
+
+  function seek(e){ 
+    const rect = progress.getBoundingClientRect(); 
+    const clientX = e.type.startsWith("touch") ? e.touches[0].clientX : e.clientX; 
+    const x = clientX - rect.left; 
+    const pct = Math.max(0, Math.min(1, x / rect.width)); 
+    if(!isNaN(audio.duration)) audio.currentTime = pct * audio.duration; 
+  }
+
+  // Bottom player progress seeking
+  function seekBottom(e) {
+    const rect = bottomProgress.getBoundingClientRect();
+    const clientX = e.type.startsWith("touch") ? e.touches[0].clientX : e.clientX;
+    const x = clientX - rect.left;
+    const pct = Math.max(0, Math.min(1, x / rect.width));
+    if (!isNaN(audio.duration)) audio.currentTime = pct * audio.duration;
+  }
+
+  progress.addEventListener("click", seek); 
+  progress.addEventListener("touchstart", seek);
+  
+  if (bottomProgress) {
+    bottomProgress.addEventListener("click", seekBottom);
+    bottomProgress.addEventListener("touchstart", seekBottom);
+  }
 
   volRange.addEventListener("input", (e)=>{ audio.volume = parseFloat(e.target.value); updateMute(); });
   muteBtn.addEventListener("click", ()=>{ audio.muted = !audio.muted; updateMute(); });
   function updateMute(){ muteBtn.textContent = audio.muted || audio.volume === 0 ? "🔇" : "🔊"; if(!audio.muted) volRange.value = audio.volume; }
 
   progress.addEventListener("keydown", (e)=>{ if(e.key === "ArrowLeft") audio.currentTime = Math.max(0, audio.currentTime - 5); if(e.key === "ArrowRight") audio.currentTime = Math.min(audio.duration, audio.currentTime + 5); });
-  audio.addEventListener("ended", ()=>{ playPause.textContent = "▶"; playPause.setAttribute("aria-pressed","false"); });
-  audio.volume = parseFloat(volRange.value); updateMute(); loadTrack(0);
+  audio.addEventListener("ended", ()=>{ playPause.textContent = "▶"; playPause.setAttribute("aria-pressed","false"); if (playPauseMini) playPauseMini.textContent = "▶"; nextBtn.click(); });
+  audio.volume = parseFloat(volRange.value); 
+  updateMute(); 
+  loadTrack(0);
 
   // Allow loading local files into the playlist (keeps existing playlist)
   if(fileLoader){ fileLoader.addEventListener('change', (e)=>{
@@ -56,19 +170,43 @@
     files.forEach((f)=>{
       const url = URL.createObjectURL(f);
       tracks.push({ src: url, type: f.type, song: f.name, artist: 'Local file', art: 'LAWREAY TECH Logo Design.png' });
-      const opt = document.createElement('option'); opt.value = String(tracks.length-1); opt.textContent = f.name; select.appendChild(opt);
+      const opt = document.createElement('option'); 
+      opt.value = String(tracks.length-1); 
+      opt.textContent = f.name; 
+      select.appendChild(opt);
     });
     // auto-play first loaded file
     const firstIndex = tracks.length - files.length;
     loadTrack(firstIndex);
     audio.play().catch(()=>{});
-    playPause.textContent = "⏸"; playPause.setAttribute("aria-pressed","true");
+    playPause.textContent = "⏸"; 
+    playPause.setAttribute("aria-pressed","true");
+    if (playPauseMini) playPauseMini.textContent = "⏸";
   }); }
 
 })();
 
-// Like button
-(function(){ const likeBtn = document.getElementById('likeBtn'); if(!likeBtn) return; let liked=false; likeBtn.addEventListener('click', ()=>{ liked=!liked; likeBtn.textContent = liked ? '♥ Liked' : '♡ Like'; likeBtn.style.color = liked ? '#ff4d6d' : 'var(--muted)'; });})();
-
-// Rating
-(function(){ const rating = document.getElementById('rating'); if(!rating) return; let current=0; function render(n){ [...rating.querySelectorAll('span')].forEach((el,i)=>{ el.style.opacity = i < n ? '1' : '0.35'; }); } rating.addEventListener('click',(e)=>{ const star = e.target.getAttribute('data-star'); if(star){ current = parseInt(star,10); render(current); } }); render(0);})();
+// Rating with star animation
+(function(){ 
+  const rating = document.getElementById('rating'); 
+  if(!rating) return; 
+  let current=0; 
+  function render(n){ 
+    [...rating.querySelectorAll('span')].forEach((el,i)=>{ 
+      el.style.opacity = i < n ? '1' : '0.35';
+      if (i < n) {
+        el.style.transform = 'scale(1.1)';
+      } else {
+        el.style.transform = 'scale(1)';
+      }
+    }); 
+  } 
+  rating.addEventListener('click',(e)=>{ 
+    const star = e.target.getAttribute('data-star'); 
+    if(star){ 
+      current = parseInt(star,10); 
+      render(current);
+    } 
+  }); 
+  render(0);
+})();

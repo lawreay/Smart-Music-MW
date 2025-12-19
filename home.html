@@ -21,6 +21,18 @@
       <a href="#register">Create accoun</a>
     </nav>
 
+    <!-- Search Bar -->
+    <div class="search-container">
+      <input 
+        type="text" 
+        id="searchInput" 
+        class="search-bar" 
+        placeholder="🔍 Search songs, artists..." 
+        autocomplete="off"
+      />
+      <button id="clearSearch" class="clear-search-btn" style="display:none;">✕</button>
+    </div>
+
     <div class="container">
       <aside class="sidebar">
         <div
@@ -186,6 +198,50 @@
         </main>
       </article>
     </div>
+    <!-- Song Grid Section -->
+    <section class="songs-section" style="margin: 24px auto; max-width: var(--max-width);">
+      <h2 style="color: var(--text); margin-bottom: 16px; font-size: 1.3rem;">Popular Tracks</h2>
+      <div class="songs-grid" id="songsGrid">
+        <!-- Song cards will be dynamically loaded here -->
+      </div>
+    </section>
+
+    <div>
+      <footer>
+        <p>&copy; 2024 Smart Music Malawi. All rights reserved.</p> Developed by <b>Lawrence Chikapa Phuka</b>
+      </footer>
+    </div>
+
+    <!-- Fixed Bottom Player -->
+    <div class="bottom-player" id="bottomPlayer">
+      <div class="bottom-player-content">
+        <!-- Album Art -->
+        <img id="bottomArt" class="bottom-player-art" src="LAWREAY TECH Logo Design.png" alt="Now playing">
+        
+        <!-- Track Info -->
+        <div class="bottom-player-info">
+          <div class="bottom-player-title" id="bottomSongName">Without Me</div>
+          <div class="bottom-player-artist" id="bottomArtistName">Halsey</div>
+        </div>
+
+        <!-- Controls -->
+        <div class="bottom-player-controls">
+          <button class="bottom-player-btn like-btn-mini" id="likeBtnMini" title="Like">♡</button>
+          <button class="bottom-player-btn" id="playPauseMini" title="Play">▶</button>
+          <button class="bottom-player-btn" id="nextBtnMini" title="Next">⏭</button>
+        </div>
+
+        <!-- Progress -->
+        <div class="bottom-player-progress">
+          <div class="bottom-progress-bar" id="bottomProgress">
+            <div class="bottom-progress-fill" id="bottomProgressFill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="player.js"></script>
+    <script src="songs-loader.js"></script>
+    <script src="likes-manager.js"></script>
   </body>
 </html>
