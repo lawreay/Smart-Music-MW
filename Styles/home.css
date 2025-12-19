@@ -58,7 +58,8 @@ aside.sidebar{background:linear-gradient(180deg,rgba(255,255,255,0.02),transpare
 .bottom-player-btn:hover{color:var(--accent-2);border-color:var(--accent-2);transform:scale(1.08)}
 .bottom-player-btn.like-btn-mini{color:var(--muted)}
 .bottom-player-btn.like-btn-mini.liked{color:var(--accent);border-color:var(--accent)}
-.bottom-player-progress{flex:0.5;min-width:80px;display:flex;align-items:center;gap:6px}
+.bottom-player-download{padding:6px 8px;border-radius:8px;border:1px solid var(--glass-border);background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;font-size:14px;transition:all 0.2s ease;text-decoration:none;height:36px;min-width:36px}
+.bottom-player-download:hover{color:var(--accent-2);border-color:var(--accent-2);transform:scale(1.08);text-decoration:none}
 .bottom-progress-bar{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.1);position:relative;overflow:hidden;cursor:pointer}
 .bottom-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:2px;width:0%;transition:width 0.1s linear}
 body{padding-bottom:74px}

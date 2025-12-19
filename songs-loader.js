@@ -1,4 +1,3 @@
-// Extended song list with metadata
 const allTracks = [
   { id: 0, src: "Halsey_-_Without_Me(128k).m4a", type: "audio/mp4", song: "Without Me", artist: "Halsey", art: "LAWREAY TECH Logo Design.png" },
   { id: 1, src: "Nasty_C_-_See_Me_Now__Remix__feat._MAETA(128k).m4a", type: "audio/mp4", song: "See Me Now (Remix)", artist: "Nasty C feat. MAETA", art: "LAWREAY TECH Logo Design.png" },
@@ -12,7 +11,6 @@ const allTracks = [
 
 let filteredTracks = [...allTracks];
 
-// Intersection Observer for lazy loading
 const observerOptions = {
   root: null,
   rootMargin: '50px',
@@ -33,7 +31,6 @@ const imageObserver = new IntersectionObserver((entries) => {
   });
 }, observerOptions);
 
-// Search functionality
 function initializeSearch() {
   const searchInput = document.getElementById('searchInput');
   const clearSearchBtn = document.getElementById('clearSearch');
@@ -65,7 +62,6 @@ function initializeSearch() {
   });
 }
 
-// Create song cards and populate the grid
 function renderSongCards() {
   const songsGrid = document.getElementById('songsGrid');
   if (!songsGrid) return;
@@ -99,18 +95,15 @@ function renderSongCards() {
       </div>
     `;
     
-    // Observe image for lazy loading
     const img = card.querySelector('.song-card-img');
     imageObserver.observe(img);
     
-    // Like button handler
     const likeBtn = card.querySelector('.song-card-like-btn');
     likeBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       toggleLike(track.id, likeBtn);
     });
     
-    // Play button handler
     const playBtn = card.querySelector('.song-card-btn');
     playBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -122,7 +115,6 @@ function renderSongCards() {
   });
 }
 
-// Play track from song card
 function playTrackFromCard(track) {
   const audio = document.getElementById('audio');
   const songName = document.getElementById('songName');
@@ -132,7 +124,6 @@ function playTrackFromCard(track) {
   const playPause = document.getElementById('playPause');
   const select = document.getElementById('trackSelect');
   
-  // Update bottom player
   updateBottomPlayer(track);
   
   if (audio && songName && artistName && artwork) {
@@ -148,7 +139,6 @@ function playTrackFromCard(track) {
     if (downloadBtn) downloadBtn.href = track.src;
     if (select) select.value = String(track.id);
     
-    // Play with smooth transition
     audio.play().catch(() => {});
     
     if (playPause) {
@@ -158,7 +148,6 @@ function playTrackFromCard(track) {
   }
 }
 
-// Update bottom player
 function updateBottomPlayer(track) {
   const bottomSongName = document.getElementById('bottomSongName');
   const bottomArtistName = document.getElementById('bottomArtistName');
@@ -169,7 +158,6 @@ function updateBottomPlayer(track) {
   if (bottomArtistName) bottomArtistName.textContent = track.artist;
   if (bottomArt) bottomArt.src = track.art;
   
-  // Update like button state
   if (likeBtnMini) {
     likeBtnMini.dataset.trackId = track.id;
     if (isTrackLiked(track.id)) {
@@ -182,7 +170,6 @@ function updateBottomPlayer(track) {
   }
 }
 
-// Update active card styling
 function updateActiveCard(activeCard) {
   document.querySelectorAll('.song-card').forEach(card => {
     card.classList.remove('active');
@@ -192,7 +179,6 @@ function updateActiveCard(activeCard) {
   }
 }
 
-// Like tracking functions
 function isTrackLiked(trackId) {
   const likes = JSON.parse(localStorage.getItem('smartMusicLikes') || '[]');
   return likes.includes(trackId);
@@ -218,7 +204,6 @@ function toggleLike(trackId, button) {
   
   localStorage.setItem('smartMusicLikes', JSON.stringify(likes));
   
-  // Update all like buttons for this track
   document.querySelectorAll(`[data-track-id="${trackId}"]`).forEach(btn => {
     if (btn.classList.contains('song-card-like-btn') || btn.classList.contains('like-btn-mini')) {
       if (index > -1) {
@@ -232,12 +217,10 @@ function toggleLike(trackId, button) {
   });
 }
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
   renderSongCards();
   initializeSearch();
   
-  // Listen for track changes and update active card
   const trackSelect = document.getElementById('trackSelect');
   if (trackSelect) {
     trackSelect.addEventListener('change', () => {
@@ -250,7 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Export for use in player.js
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { allTracks, playTrackFromCard, renderSongCards, isTrackLiked, toggleLike };
 }
