@@ -1,24 +1,31 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Smart Music Malawi</title>
-    <link rel="stylesheet" href="Styles/player.css" />
-    <link rel="stylesheet" href="Styles/home.css" />
-    <link rel="shortcut icon" href="logo.png" type="image/x-icon" />
+    <title>Smart Music Malawi - Home</title>
+    <link rel="stylesheet" href="/smart-music-mw/Styles/player.css" />
+    <link rel="stylesheet" href="/smart-music-mw/Styles/home.css" />
+    <link rel="shortcut icon" href="/smart-music-mw/logo.png" type="image/x-icon" />
   </head>
   <body>
     <header>
-      <img width="70px" src="logo.png" alt="" />
+      <img width="70px" src="/smart-music-mw/logo.png" alt="Smart Music Logo" />
       <h1>Smart Music Malawi</h1>
     </header>
     <nav class="site-nav">
-      <a href="#">Home</a>
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#register">Log In</a>
-      <a href="#register">Create accoun</a>
+      <a href="/smart-music-mw/">Home</a>
+      <a href="/smart-music-mw/about">About</a>
+      <a href="/smart-music-mw/services">Services</a>
+      <?php if (!empty($_SESSION['user_id'])): ?>
+        <a href="/smart-music-mw/logout" class="auth-btn">Logout</a>
+      <?php else: ?>
+        <a href="/smart-music-mw/login" class="auth-btn">Log In</a>
+        <a href="/smart-music-mw/register" class="auth-btn register-btn">Create account</a>
+      <?php endif; ?>
     </nav>
 
     <div class="search-container">
@@ -45,7 +52,7 @@
           "
         >
           <img
-            src="logo.png"
+            src="/smart-music-mw/logo.png"
             alt="Smart Music Malawi"
             style="
               width: 48px;
@@ -58,8 +65,13 @@
         </div>
         <nav class="menu">
           <a href="#top10" class="primary">Top 10</a>
-          <a href="login.html">Log in</a>
-          <a href="login.html">Create account</a>
+          <?php if (!empty($_SESSION['user_id'])): ?>
+            <a href="/smart-music-mw/upload">Upload Music</a>
+            <a href="/smart-music-mw/api/my-music">My Music</a>
+          <?php else: ?>
+            <a href="/smart-music-mw/login">Log in</a>
+            <a href="/smart-music-mw/register">Create account</a>
+          <?php endif; ?>
           <a href="#report">Report problem</a>
         </nav>
       </aside>
@@ -73,7 +85,7 @@
               <img
                 id="artwork"
                 class="art"
-                src="LAWREAY TECH Logo Design.png"
+                src="/smart-music-mw/LAWREAY TECH Logo Design.png"
                 alt="Track artwork"
               />
               <div class="track-meta">
@@ -91,7 +103,7 @@
                   <a
                     class="download"
                     id="downloadBtn"
-                    href="Halsey_-_Without_Me(128k).m4a"
+                    href="/smart-music-mw/media/Halsey_-_Without_Me(128k).m4a"
                     download
                     >Download</a
                   >
@@ -123,10 +135,10 @@
               </div>
             </div>
 
-            <audio id="audio" preload="metadata">
+              <audio id="audio" preload="metadata">
               <source
                 id="audioSource"
-                src="Halsey_-_Without_Me(128k).m4a"
+                src="/smart-music-mw/media/Halsey_-_Without_Me(128k).m4a"
                 type="audio/mp4"
               />
             </audio>
@@ -224,7 +236,7 @@
         <img
           id="bottomArt"
           class="bottom-player-art"
-          src="LAWREAY TECH Logo Design.png"
+          src="/smart-music-mw/LAWREAY TECH Logo Design.png"
           alt="Now playing"
         />
         <div class="bottom-player-info">
@@ -255,8 +267,8 @@
       </div>
     </div>
 
-    <script src="player.js"></script>
-    <script src="songs-loader.js"></script>
-    <script src="likes-manager.js"></script>
+    <script src="/smart-music-mw/player.js"></script>
+    <script src="/smart-music-mw/songs-loader.js"></script>
+    <script src="/smart-music-mw/likes-manager.js"></script>
   </body>
 </html>
