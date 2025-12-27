@@ -67,13 +67,17 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
     document.getElementById('error').innerHTML = '<div class="error">Passwords do not match</div>';
     return;
   }
-  const formData = new FormData(document.getElementById('registerForm'));
-  const res = await fetch('/smart-music-mw/register-submit', { method: 'POST', body: formData });
-  const data = await res.json();
-  if (data.ok) {
-    window.location.href = '/smart-music-mw/';
-  } else {
-    document.getElementById('error').innerHTML = '<div class="error">' + (data.error || 'Registration failed') + '</div>';
+  try {
+    const formData = new FormData(document.getElementById('registerForm'));
+    const res = await fetch('/smart-music-mw/register-submit', { method: 'POST', body: formData, credentials: 'same-origin' });
+    const data = await res.json();
+    if (data.ok) {
+      window.location.href = '/smart-music-mw/';
+    } else {
+      document.getElementById('error').innerHTML = '<div class="error">' + (data.error || 'Registration failed') + '</div>';
+    }
+  } catch (err) {
+    document.getElementById('error').innerHTML = '<div class="error">Network error: ' + err.message + '</div>';
   }
 });
 </script>

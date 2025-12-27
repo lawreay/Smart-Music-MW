@@ -3,8 +3,8 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 
 // Require login
 if (empty($_SESSION['user_id'])) {
-    header('Location: /login.php');
-    exit;
+  header('Location: /smart-music-mw/login');
+  exit;
 }
 ?>
 <!DOCTYPE html>
@@ -80,16 +80,20 @@ document.getElementById('music').addEventListener('change', (e) => {
 
 document.getElementById('uploadForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const formData = new FormData(document.getElementById('uploadForm'));
-  const res = await fetch('/upload-music', { method: 'POST', body: formData });
-  const data = await res.json();
-  if (data.ok) {
-    document.getElementById('message').innerHTML = '<div class="success">Music uploaded successfully!</div>';
-    document.getElementById('uploadForm').reset();
-    document.getElementById('fileName').textContent = '';
-    setTimeout(() => window.location.href = '/', 2000);
-  } else {
-    document.getElementById('message').innerHTML = '<div class="error">' + (data.error || 'Upload failed') + '</div>';
+  try {
+    const formData = new FormData(document.getElementById('uploadForm'));
+    const res = await fetch('/smart-music-mw/upload-music', { method: 'POST', body: formData, credentials: 'same-origin' });
+    const data = await res.json();
+    if (data.ok) {
+      document.getElementById('message').innerHTML = '<div class="success">Music uploaded successfully!</div>';
+      document.getElementById('uploadForm').reset();
+      document.getElementById('fileName').textContent = '';
+      setTimeout(() => window.location.href = '/smart-music-mw/', 2000);
+    } else {
+      document.getElementById('message').innerHTML = '<div class="error">' + (data.error || 'Upload failed') + '</div>';
+    }
+  } catch (err) {
+    document.getElementById('message').innerHTML = '<div class="error">Network error: ' + err.message + '</div>';
   }
 });
 </script>

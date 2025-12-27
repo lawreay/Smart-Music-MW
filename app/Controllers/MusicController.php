@@ -4,12 +4,28 @@ require_once __DIR__ . '/../Models/Music.php';
 
 class MusicController
 {
-    private static $uploadDir = __DIR__ . '/../../uploads/music';
+    // Save uploaded music to project `media/` so files are web-accessible at /smart-music-mw/media/...
+    private static $uploadDir = __DIR__ . '/../../media';
     private static $maxFileSize = 100 * 1024 * 1024; // 100MB
     private static $allowedExtensions = ['mp3', 'm4a', 'wav', 'flac', 'ogg'];
 
     public static function upload()
     {
+        // Debug log - capture upload attempts for troubleshooting
+        $logDir = __DIR__ . '/../../storage/logs';
+        if (!is_dir($logDir)) mkdir($logDir, 0755, true);
+        $logFile = $logDir . '/upload.log';
+        $log = [];
+        $log[] = "---- " . date('Y-m-d H:i:s') . " ----";
+        $log[] = 'REMOTE_ADDR=' . ($_SERVER['REMOTE_ADDR'] ?? '');
+        $log[] = 'REQUEST_URI=' . ($_SERVER['REQUEST_URI'] ?? '');
+        $log[] = 'SESSION_USER=' . ($_SESSION['user_id'] ?? '');
+        $log[] = 'HAS_FILES=' . (isset($_FILES) ? 'yes' : 'no');
+        $log[] = 'FILES_KEYS=' . implode(',', array_keys($_FILES ?? []));
+        $log[] = 'PHP_UPLOAD_MAX=' . ini_get('upload_max_filesize');
+        $log[] = 'PHP_POST_MAX=' . ini_get('post_max_size');
+        file_put_contents($logFile, implode("\n", $log) . "\n", FILE_APPEND);
+
         if (empty($_SESSION['user_id'])) {
             http_response_code(401);
             echo json_encode(['ok' => false, 'error' => 'Not authenticated']);
@@ -69,7 +85,7 @@ class MusicController
                 $album ?: 'Unknown Album',
                 $genre ?: 'Unclassified',
                 $duration,
-                'uploads/music/' . $fileName,
+                'media/' . $fileName,
                 $file['size'],
                 $file['type'] ?: 'audio/' . $ext
             );

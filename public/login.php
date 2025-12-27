@@ -54,12 +54,16 @@ if (!empty($_SESSION['user_id'])) {
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const formData = new FormData(document.getElementById('loginForm'));
-  const res = await fetch('/smart-music-mw/login-submit', { method: 'POST', body: formData });
-  const data = await res.json();
-  if (data.ok) {
-    window.location.href = '/smart-music-mw/';
-  } else {
-    document.getElementById('error').innerHTML = '<div class="error">' + (data.error || 'Login failed') + '</div>';
+  try {
+    const res = await fetch('/smart-music-mw/login-submit', { method: 'POST', body: formData, credentials: 'same-origin' });
+    const data = await res.json();
+    if (data.ok) {
+      window.location.href = '/smart-music-mw/';
+    } else {
+      document.getElementById('error').innerHTML = '<div class="error">' + (data.error || 'Login failed') + '</div>';
+    }
+  } catch (err) {
+    document.getElementById('error').innerHTML = '<div class="error">Network error: ' + err.message + '</div>';
   }
 });
 </script>

@@ -1,0 +1,8 @@
+---- 2025-12-27 17:14:48 ----
+REMOTE_ADDR=::1
+REQUEST_URI=/smart-music-mw/upload-music
+SESSION_USER=1
+HAS_FILES=yes
+FILES_KEYS=music
+PHP_UPLOAD_MAX=40M
+PHP_POST_MAX=40M

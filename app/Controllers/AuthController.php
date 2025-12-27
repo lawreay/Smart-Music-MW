@@ -62,7 +62,7 @@ class AuthController
             );
         }
         session_destroy();
-        header('Location: /');
+        header('Location: /smart-music-mw/');
         exit;
     }
 }
