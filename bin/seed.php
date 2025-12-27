@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+
 <?php
 require __DIR__ . '/../app/Support/DB.php';
 require __DIR__ . '/../app/Models/User.php';
@@ -8,7 +8,7 @@ echo "Seeding database...\n";
 
 $pdo = DB::pdo();
 
-$adminEmail = 'admin@local.test';
+$adminEmail = 'lawreay1@gmail.com';
 $adminId = null;
 if (!User::findByEmail($adminEmail)) {
     $adminId = User::create('Admin', $adminEmail, 'password123', 'admin');
@@ -43,7 +43,7 @@ foreach ($projects as $p) {
     echo "Inserted project {$p[1]}\n";
 }
 
-// Insert sample songs (these reference existing audio files in the project)
+
 $songs = [
     ['Halsey - Without Me', 'Halsey', 'Hopeless Fountain Kingdom', 'Electronic', 206, 'Halsey_-_Without_Me(128k).m4a'],
     ['Nasty C - See Me Now (Remix)', 'Nasty C', 'Mixed Feelings', 'Hip Hop', 218, 'Nasty_C_-_See_Me_Now__Remix__feat._MAETA(128k).m4a'],

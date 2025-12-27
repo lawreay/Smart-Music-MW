@@ -28,7 +28,7 @@ Then visit: `http://localhost:8000/`
 
 ### Step 3: Login
 Use these credentials:
-- **Email**: `admin@local.test`
+- **Email**: `lareay1@gmail.com`
 - **Password**: `password123`
 
 ## ✨ Features Ready to Use

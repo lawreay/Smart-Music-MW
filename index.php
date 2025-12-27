@@ -1,7 +1,7 @@
 <?php
 /**
- * Smart Music Malawi - Root Entry Point
- * Routes all requests to public/index.php
+ * © 2024 Smart Music Malawi. All rights reserved.
+ * Developed by Lawrence Chikapa Phuka
  */
 
 require __DIR__ . '/public/index.php';

@@ -4,14 +4,14 @@ require_once __DIR__ . '/../Models/Music.php';
 
 class MusicController
 {
-    // Save uploaded music to project `media/` so files are web-accessible at /smart-music-mw/media/...
+   
     private static $uploadDir = __DIR__ . '/../../media';
     private static $maxFileSize = 100 * 1024 * 1024; // 100MB
     private static $allowedExtensions = ['mp3', 'm4a', 'wav', 'flac', 'ogg'];
 
     public static function upload()
     {
-        // Debug log - capture upload attempts for troubleshooting
+        
         $logDir = __DIR__ . '/../../storage/logs';
         if (!is_dir($logDir)) mkdir($logDir, 0755, true);
         $logFile = $logDir . '/upload.log';

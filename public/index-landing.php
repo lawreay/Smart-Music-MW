@@ -10,6 +10,17 @@ if (session_status() === PHP_SESSION_NONE) session_start();
     <link rel="stylesheet" href="/smart-music-mw/Styles/player.css" />
     <link rel="stylesheet" href="/smart-music-mw/Styles/home.css" />
     <link rel="shortcut icon" href="/smart-music-mw/logo.png" type="image/x-icon" />
+    <style>
+      .file-loader {
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 6px;
+        background-color: green;
+        color: var(--text);
+        cursor: pointer;
+        color: #0f1a0f;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -205,7 +216,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
                 style="font-size: 0.92rem; color: var(--muted)"
                 >Load local files:</label
               >
-              <input id="fileLoader" type="file" accept="audio/*" multiple />
+              <input class="file-loader" id="fileLoader" type="file" accept="audio/*" multiple />
             </div>
           </div>
         </main>

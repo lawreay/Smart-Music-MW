@@ -31,7 +31,7 @@ C:\xampp\php\php.exe C:\xampp\htdocs\Smart-Music-MW\bin\seed.php
 ```
 
 **Default admin credentials:**
-- Email: `admin@local.test`
+- Email: `lareay1@gmail.com`
 - Password: `password123`
 
 ## Running the Application

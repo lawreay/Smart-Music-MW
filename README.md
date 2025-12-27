@@ -25,7 +25,7 @@ A community-first music streaming platform for discovering and sharing Malawian 
 Create the database by importing the SQL file:
 
 ```bash
-mysql -u root -p < database.sql
+mysql -u root -p < smart_music.sql
 ```
 
 Then seed it with an admin user:
@@ -35,7 +35,7 @@ php bin/seed.php
 ```
 
 **Default admin credentials:**
-- Email: `admin@local.test`
+- Email: `lawreay1@gmil.com`
 - Password: `password123`
 
 ### 2. Access the Application

@@ -1,7 +1,7 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-// Require login
+
 if (empty($_SESSION['user_id'])) {
   header('Location: /smart-music-mw/login');
   exit;

@@ -14,12 +14,12 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Strip /smart-music-mw/ prefix if present
+
 if (strpos($path, '/smart-music-mw/') === 0) {
     $path = substr($path, strlen('/smart-music-mw'));
 }
 
-// Ensure path starts with /
+
 if (!$path || $path === '') {
     $path = '/';
 }

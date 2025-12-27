@@ -1,7 +1,7 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-// Redirect if already logged in
+
 if (!empty($_SESSION['user_id'])) {
   header('Location: /smart-music-mw/');
   exit;
