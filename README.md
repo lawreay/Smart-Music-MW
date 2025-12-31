@@ -2,7 +2,7 @@
 
 A community-first music streaming platform for discovering and sharing Malawian music.
 
-## ✨ Features
+##  Features
 
 - **User Authentication**: Secure login and registration with bcrypt password hashing
 - **Music Uploads**: Artists can upload their music (MP3, M4A, WAV, FLAC, OGG)
@@ -11,14 +11,14 @@ A community-first music streaming platform for discovering and sharing Malawian 
 - **File Storage**: Secure file storage with automatic directory management
 - **Session Management**: Secure PHP sessions with proper cookie handling
 
-## 📋 Requirements
+## Requirements
 
 - **PHP** >= 8.1
 - **MySQL** 5.7+ or MariaDB
 - **Apache** with `mod_rewrite` enabled (for .htaccess routing)
 - **Extensions**: `pdo`, `pdo_mysql`, `mbstring`
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 1. Database Setup
 
@@ -35,8 +35,8 @@ php bin/seed.php
 ```
 
 **Default admin credentials:**
-- Email: `lawreay1@gmil.com`
-- Password: `password123`
+- Email: `lll*******com`
+- Password: `*****sswo******`
 
 ### 2. Access the Application
 
@@ -52,7 +52,7 @@ php -S localhost:8000
 ```
 Then visit: `http://localhost:8000/`
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 smart-music-mw/
@@ -94,7 +94,7 @@ smart-music-mw/
 
 ```
 
-## 🔐 Security Features
+##  Security Features
 
 - **Prepared Statements**: All database queries use prepared statements to prevent SQL injection
 - **Password Hashing**: Uses PHP's `password_hash()` with bcrypt algorithm
@@ -102,7 +102,7 @@ smart-music-mw/
 - **File Validation**: Server-side file type and size validation
 - **CORS Support**: Proper content-type headers for API responses
 
-## 📡 API Endpoints
+##  API Endpoints
 
 ### Public
 - `GET /api/projects` - List published projects
@@ -116,7 +116,7 @@ smart-music-mw/
 - `GET /api/my-music` - Get user's uploaded songs
 - `POST /upload-music` - Upload music file
 
-## 🎵 Supported Audio Formats
+##  Supported Audio Formats
 
 - MP3 (audio/mpeg)
 - M4A (audio/mp4)
@@ -126,7 +126,7 @@ smart-music-mw/
 
 **Max file size**: 100MB
 
-## 📊 Database Schema
+##  Database Schema
 
 ### users
 Stores user accounts with authentication data.
@@ -164,7 +164,7 @@ Check your database credentials match in the seed script or migrations.
 - Verify file size < 100MB
 - Ensure file is a supported audio format
 
-## 📝 Configuration
+##  Configuration
 
 The application uses environment variables from a `.env` file (if present) for database configuration:
 
@@ -179,7 +179,7 @@ DB_CHARSET=utf8mb4
 
 If `.env` is not present, the app uses default localhost values.
 
-## 🚀 Deployment
+##  Deployment
 
 For production:
 
@@ -190,7 +190,7 @@ For production:
 5. Run: `php bin/migrate.php` (if not already migrated)
 6. Set proper file permissions on `uploads/` directory
 
-## 📄 Files Removed During Cleanup
+##  Files Removed During Cleanup
 
 The following files were removed as they were replaced by PHP versions:
 - `index.html` → `public/index-landing.php`
@@ -200,11 +200,11 @@ The following files were removed as they were replaced by PHP versions:
 - Old JS files: `player.js`, `songs-loader.js`, `likes-manager.js`
 - Old documentation files
 
-## 👨‍💻 Developer
+##  Developer
 
 Developed by **Lawrence Chikapa Phuka**
 
-## 📜 License
+##  License
 
 All rights reserved © 2024 Smart Music Malawi
 
